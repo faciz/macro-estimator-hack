@@ -1,0 +1,7 @@
+.env.local
+.next/
+node_modules/
+
+# Uploaded meal photos (auto-generated, not committed)
+public/uploads/*
+!public/uploads/.gitkeep
