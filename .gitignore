@@ -1,6 +1,7 @@
 .env.local
 .next/
 node_modules/
+tsconfig.tsbuildinfo
 
 # Uploaded meal photos (auto-generated, not committed)
 public/uploads/*
