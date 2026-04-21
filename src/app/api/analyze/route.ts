@@ -73,7 +73,7 @@ async function generateThumbnail(mealName: string, items: string[]): Promise<str
       n: 1,
       size: "1024x1024",
     });
-    const imageData = response.data[0];
+    const imageData = response.data?.[0];
     if (!imageData) return "";
     let buffer: Buffer;
     if (imageData.b64_json) {

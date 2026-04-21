@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       size: "1024x1024",
     });
 
-    const imageData = response.data[0];
+    const imageData = response.data?.[0];
     if (!imageData) return NextResponse.json({ imageUrl: "" });
 
     let buffer: Buffer;

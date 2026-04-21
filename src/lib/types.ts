@@ -34,3 +34,17 @@ export interface DailySummary {
   totalCarbs: number;
   totalFat: number;
 }
+
+export interface UserGoals {
+  calories: number;       // kcal target per day
+  proteinPct: number;     // % of calories from protein (0-100)
+  carbsPct: number;       // % of calories from carbs (0-100)
+  fatPct: number;         // % of calories from fat (0-100)
+}
+
+export const DEFAULT_GOALS: UserGoals = {
+  calories: 2000,
+  proteinPct: 30,
+  carbsPct: 40,
+  fatPct: 30,
+};

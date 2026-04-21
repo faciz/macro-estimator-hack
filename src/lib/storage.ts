@@ -1,6 +1,8 @@
-import type { Meal, DailySummary } from "./types";
+import type { Meal, DailySummary, UserGoals } from "./types";
+import { DEFAULT_GOALS } from "./types";
 
 const STORAGE_KEY = "macro-estimator-meals";
+const GOALS_KEY = "macro-estimator-goals";
 
 export function getMeals(): Meal[] {
   if (typeof window === "undefined") return [];
@@ -53,4 +55,18 @@ export function getDailySummaries(): DailySummary[] {
 
 export function generateId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
+
+export function getGoals(): UserGoals {
+  if (typeof window === "undefined") return DEFAULT_GOALS;
+  try {
+    const raw = localStorage.getItem(GOALS_KEY);
+    return raw ? (JSON.parse(raw) as UserGoals) : DEFAULT_GOALS;
+  } catch {
+    return DEFAULT_GOALS;
+  }
+}
+
+export function saveGoals(goals: UserGoals): void {
+  localStorage.setItem(GOALS_KEY, JSON.stringify(goals));
 }

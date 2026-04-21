@@ -18,9 +18,9 @@ interface PendingMealCardProps {
 }
 
 const MACRO_COLORS = {
-  protein: { bg: "bg-blue-100", text: "text-blue-700", bar: "bg-blue-500" },
-  carbs: { bg: "bg-amber-100", text: "text-amber-700", bar: "bg-amber-400" },
-  fat: { bg: "bg-rose-100", text: "text-rose-700", bar: "bg-rose-400" },
+  protein: { bg: "bg-blue-500/15", text: "text-blue-600 dark:text-blue-400", bar: "bg-blue-500" },
+  carbs: { bg: "bg-amber-500/15", text: "text-amber-700 dark:text-amber-400", bar: "bg-amber-400" },
+  fat: { bg: "bg-rose-500/15", text: "text-rose-600 dark:text-rose-400", bar: "bg-rose-400" },
 };
 
 function ImageLightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
