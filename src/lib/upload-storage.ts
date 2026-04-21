@@ -1,6 +1,6 @@
 import { writeFile, mkdir } from "fs/promises";
 import path from "path";
-import { BlobServiceClient } from "@azure/storage-blob";
+import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 import { DefaultAzureCredential } from "@azure/identity";
 
 const STORAGE_ACCOUNT = process.env.AZURE_STORAGE_ACCOUNT;
@@ -18,10 +18,19 @@ function getBlobService(): BlobServiceClient {
   return blobServiceClient;
 }
 
+export function getUploadsContainer(): ContainerClient | null {
+  if (!STORAGE_ACCOUNT) return null;
+  return getBlobService().getContainerClient(STORAGE_CONTAINER);
+}
+
+export function isBlobStorageEnabled(): boolean {
+  return Boolean(STORAGE_ACCOUNT);
+}
+
 /**
- * Persist an uploaded image and return its public URL.
- * Uses Azure Blob Storage when AZURE_STORAGE_ACCOUNT is set; otherwise writes
- * to the local public/uploads folder (suitable only for dev).
+ * Persist an uploaded image and return a URL the browser can load.
+ * Uses Azure Blob Storage (private) behind /api/image/<name> when
+ * AZURE_STORAGE_ACCOUNT is set; otherwise writes to public/uploads (dev only).
  */
 export async function saveUpload(
   buffer: Buffer,
@@ -36,7 +45,9 @@ export async function saveUpload(
     await blob.uploadData(buffer, {
       blobHTTPHeaders: { blobContentType: contentType },
     });
-    return blob.url;
+    // Return a same-origin proxy URL so the browser can load private blobs
+    // via the server's AAD identity.
+    return `/api/image/${encodeURIComponent(fileName)}`;
   }
 
   const uploadDir = path.join(process.cwd(), "public", "uploads");
