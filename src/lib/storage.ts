@@ -58,13 +58,28 @@ export function generateId(): string {
   return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 }
 
+function isValidGoals(obj: unknown): obj is UserGoals {
+  if (typeof obj !== "object" || obj === null) return false;
+  const g = obj as Record<string, unknown>;
+  const isFinitePositive = (v: unknown): v is number =>
+    typeof v === "number" && Number.isFinite(v) && v >= 0;
+  return (
+    isFinitePositive(g.calories) && g.calories > 0 &&
+    isFinitePositive(g.proteinPct) &&
+    isFinitePositive(g.carbsPct) &&
+    isFinitePositive(g.fatPct)
+  );
+}
+
 export function getGoals(): UserGoals {
-  if (typeof window === "undefined") return DEFAULT_GOALS;
+  if (typeof window === "undefined") return { ...DEFAULT_GOALS };
   try {
     const raw = localStorage.getItem(GOALS_KEY);
-    return raw ? (JSON.parse(raw) as UserGoals) : DEFAULT_GOALS;
+    if (!raw) return { ...DEFAULT_GOALS };
+    const parsed: unknown = JSON.parse(raw);
+    return isValidGoals(parsed) ? parsed : { ...DEFAULT_GOALS };
   } catch {
-    return DEFAULT_GOALS;
+    return { ...DEFAULT_GOALS };
   }
 }
 

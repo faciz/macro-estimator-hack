@@ -9,7 +9,7 @@ const MAX_NAME = 200;
 const MAX_ITEMS = 20;
 
 export async function POST(req: NextRequest) {
-  const gate = checkAccess(req);
+  const gate = checkAccess(req, "thumbnail");
   if (gate) return gate;
 
   try {

@@ -63,7 +63,7 @@ const SYSTEM_PROMPT = `You are a nutrition expert and meal analyzer. When given 
 Base your estimates on typical serving sizes visible in the image. If multiple dishes are present, sum all macros and list all items. Always return reasonable estimates — never refuse to analyze.`;
 
 export async function POST(req: NextRequest) {
-  const gate = checkAccess(req);
+  const gate = checkAccess(req, "analyze");
   if (gate) return gate;
 
   try {
