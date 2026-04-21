@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Salad, ChevronLeft, ChevronRight, Moon, Sun, Settings2 } from "lucide-react";
+import { Salad, ChevronLeft, ChevronRight, Moon, Sun, Settings2, LogOut } from "lucide-react";
+import { signOutAction } from "@/app/actions";
 import { PhotoUploader } from "@/components/photo-uploader";
 import { MealCard, PendingMealCard } from "@/components/meal-card";
 import { DailySummaryCard } from "@/components/daily-summary-card";
@@ -138,6 +139,15 @@ export default function Home() {
           >
             {resolvedTheme === "dark" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
           </button>
+          <form action={signOutAction}>
+            <button
+              type="submit"
+              className="p-2 rounded-xl text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+              aria-label="Sign out"
+            >
+              <LogOut className="h-5 w-5" />
+            </button>
+          </form>
         </header>
 
         {/* Upload zone */}
