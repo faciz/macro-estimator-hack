@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getSession } from "@/lib/auth";
+import { auth } from "@/auth";
 import { signInAction } from "@/app/actions";
 
 export const dynamic = "force-dynamic";
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default async function SignInPage({ searchParams }: Props) {
-  const session = await getSession();
+  const session = await auth();
   const params = await searchParams;
   if (session) redirect(params.callbackUrl ?? "/");
 

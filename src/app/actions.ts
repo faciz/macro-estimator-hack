@@ -1,14 +1,12 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import { clearSessionCookie } from "@/lib/auth";
+import { signIn, signOut } from "@/auth";
 
 export async function signInAction(callbackUrl: string) {
   const safe = callbackUrl && callbackUrl.startsWith("/") ? callbackUrl : "/";
-  redirect(`/api/auth/signin?callbackUrl=${encodeURIComponent(safe)}`);
+  await signIn("microsoft-entra-id", { redirectTo: safe });
 }
 
 export async function signOutAction() {
-  await clearSessionCookie();
-  redirect("/signin");
+  await signOut({ redirectTo: "/signin" });
 }
