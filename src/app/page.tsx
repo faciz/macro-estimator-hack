@@ -15,15 +15,16 @@ import {
   updateMealImage,
 } from "@/lib/storage";
 import type { DailySummary, MealAnalysis, PendingMeal, UserGoals } from "@/lib/types";
+import { toLocalDateStr } from "@/lib/date-utils";
 
 function todayStr() {
-  return new Date().toISOString().slice(0, 10);
+  return toLocalDateStr();
 }
 
 function offsetDate(dateStr: string, days: number) {
   const d = new Date(`${dateStr}T12:00:00`);
   d.setDate(d.getDate() + days);
-  return d.toISOString().slice(0, 10);
+  return toLocalDateStr(d);
 }
 
 function formatNavDate(dateStr: string) {

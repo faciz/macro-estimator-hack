@@ -1,5 +1,6 @@
 import type { Meal, DailySummary, UserGoals } from "./types";
 import { DEFAULT_GOALS } from "./types";
+import { localDateFromIso } from "./date-utils";
 
 const STORAGE_KEY = "macro-estimator-meals";
 const GOALS_KEY = "macro-estimator-goals";
@@ -35,7 +36,7 @@ export function getDailySummaries(): DailySummary[] {
   const byDate = new Map<string, Meal[]>();
 
   for (const meal of meals) {
-    const date = meal.createdAt.slice(0, 10); // YYYY-MM-DD
+    const date = localDateFromIso(meal.createdAt); // YYYY-MM-DD in user's timezone
     const group = byDate.get(date) ?? [];
     group.push(meal);
     byDate.set(date, group);
