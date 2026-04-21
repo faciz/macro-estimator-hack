@@ -17,9 +17,14 @@ export default async function SignInPage({ searchParams }: Props) {
 
   const callbackUrl = params.callbackUrl ?? "/";
 
-  async function doSignIn() {
+  async function signInMicrosoft() {
     "use server";
-    await signInAction(callbackUrl);
+    await signInAction("microsoft-entra-id", callbackUrl);
+  }
+
+  async function signInGoogle() {
+    "use server";
+    await signInAction("google", callbackUrl);
   }
 
   return (
@@ -27,7 +32,7 @@ export default async function SignInPage({ searchParams }: Props) {
       <div className="w-full max-w-sm rounded-xl border border-border bg-card p-8 shadow-sm">
         <h1 className="text-2xl font-semibold tracking-tight">Macro Estimator</h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Sign in with your Microsoft account to continue.
+          Sign in to continue.
         </p>
 
         {errMsg ? (
@@ -36,12 +41,21 @@ export default async function SignInPage({ searchParams }: Props) {
           </div>
         ) : null}
 
-        <form action={doSignIn} className="mt-6">
+        <form action={signInMicrosoft} className="mt-6">
           <button
             type="submit"
             className="inline-flex w-full items-center justify-center rounded-md bg-[#1b1b1b] px-4 py-3 text-sm font-medium text-white shadow-sm transition hover:bg-black"
           >
             Sign in with Microsoft
+          </button>
+        </form>
+
+        <form action={signInGoogle} className="mt-3">
+          <button
+            type="submit"
+            className="inline-flex w-full items-center justify-center rounded-md border border-border bg-white px-4 py-3 text-sm font-medium text-gray-800 shadow-sm transition hover:bg-gray-50 dark:bg-white dark:text-gray-800 dark:hover:bg-gray-100"
+          >
+            Sign in with Google
           </button>
         </form>
       </div>

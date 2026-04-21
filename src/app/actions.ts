@@ -2,9 +2,9 @@
 
 import { signIn, signOut } from "@/auth";
 
-export async function signInAction(callbackUrl: string) {
+export async function signInAction(provider: string, callbackUrl: string) {
   const safe = callbackUrl && callbackUrl.startsWith("/") ? callbackUrl : "/";
-  await signIn("microsoft-entra-id", { redirectTo: safe });
+  await signIn(provider, { redirectTo: safe });
 }
 
 export async function signOutAction() {
